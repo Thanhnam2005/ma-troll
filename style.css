@@ -1,0 +1,8 @@
+video#video {
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
+}
+video#video::-webkit-media-controls-enclosure {
+    display:none !important;
+}
