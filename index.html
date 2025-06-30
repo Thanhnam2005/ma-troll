@@ -114,7 +114,7 @@
     <img src="OIP.jpg" alt="Ghost" />
     <div class="ghost-text"></div>
     <!-- Âm thanh scream mạnh, thử thay đổi src để tăng hiệu quả -->
-    <audio id="scream" src="0630 (1).mp3"></audio>
+    <audio id="scream" src="video2.mp3"></audio>
   </div>
   <script>
     function showGhost() {
@@ -139,7 +139,7 @@
     const scream = document.getElementById('scream');
     scream.currentTime = 0;
     scream.play();
-    setTimeout(hideGhost, 3000); // tự tắt sau 3 giây
+    setTimeout(hideGhost, 100000); // tự tắt sau 3 giây
   }
 
   function hideGhost() {
