@@ -1,313 +1,157 @@
- 
 <!DOCTYPE html>
-
-<html lang="en">
-
+<html>
 <head>
-
-<meta charset="utf-8">
-
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
-
-<title>Lê Thanh Nam</title>
-
-<link rel="preconnect" href="https://fonts.gstatic.com">
-
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;900&display=swap" rel="stylesheet">
-
-<style type="text/css">
-
-            p {
-
-                margin: 0;
-
-            }
-
-
-
-            *, *::before, *::after {
-
-                box-sizing: border-box;
-
-            }
-
-
-
-            .overlay, .scare {
-
-                position: fixed;
-
-
-
-                top: 0;
-
-                left: 0;
-
-
-
-                height: 100vh;
-
-                width: 100vw;
-
-            }
-
-
-
-            p.overlay-title {
-
-                font-size: 24px;
-
-                font-weight: 900;
-
-                color: black;
-
-                line-height: 1;
-
-
-
-                margin-bottom: 16px;
-
-            }
-
-
-
-            .overlay-button {
-
-                display: inline-flex;
-
-                align-items: center;
-
-
-
-                height: 40px;
-
-
-
-                padding-right: 24px;
-
-                padding-left: 24px;
-
-
-
-                font-size: 16px;
-
-                font-weight: 500;
-
-                line-height: 1;
-
-
-
-                border-radius: 4px;
-
-
-
-                margin: 4px;
-
-
-
-                cursor: pointer;
-
-            }
-
-
-
-            .overlay-buttons-wrapper {
-
-                margin: 24px -8px -8px;
-
-            }
-
-
-
-            #accept-button {
-
-                background-color: rgb(89, 177, 228);
-
-
-
-                color: white;
-
-            }
-
-
-
-            #decline-button {
-
-                color: rgb(132, 94, 194);
-
-
-
-                border: 2px solid rgb(132, 94, 194);
-
-            }
-
-
-
-            p.overlay-description {
-
-                font-size: 16px;
-
-                font-weight: 400;
-
-                color: rgba(0, 0, 0, 0.5);
-
-                line-height: 1.25;
-
-
-
-                margin-bottom: 16px;
-
-            }
-
-
-
-            a.overlay-link {
-
-                display: inline-block;
-
-
-
-                text-decoration: none;
-
-                font-size: 16px;
-
-                font-weight: 500;
-
-                color: rgb(132, 94, 194);
-
-                line-height: 1;
-                position: relative;
-                margin-top: 16px;
-            }
-            a.overlay-link::before {
-                position: absolute;
-                content: "";
-                height: calc(50% + 4px);
-
-                width: calc(100% + 8px);
-
-
-
-                bottom: -4px;
-
-                left: -4px;
-
-
-
-                background-color: rgba(132, 94, 194, 0.1);
-
-            }
-
-
-
-            .overlay-body {
-
-                max-width: 512px;
-
-
-
-                text-align: center;
-
-
-
-                font-family: "Inter", sans-serif;
-
-            }
-
-
-
-            .overlay[hidden] {
-
-                display: none;
-
-            }
-
-
-
-            .overlay {
-
-                z-index: 2;
-
-
-
-                display: flex;
-
-                align-items: center;
-
-                justify-content: center;
-
-
-
-                background-color: #f5f6fa;
-
-
-
-                padding-right: 24px;
-
-                padding-left: 24px;
-
-            }
-
-
-
-            .scare {
-
-                z-index: 1;
-
-            }
-
-
-
-            video#video {
-
-                height: 100%;
-
-                width: 100%;
-
-
-
-                object-fit: cover;
-
-            }
-
-
-
-            video#video::-webkit-media-controls-enclosure {
-
-                display:none !important;
-
-            }
-
-        </style>
-
+  <title>Món Quà</title>
+  <style>
+    body {
+      background: #111;
+      min-height: 100vh;
+      margin: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-family: 'Arial Black', Arial, sans-serif;
+    }
+    button {
+      font-size: 2rem;
+      padding: 20px 40px;
+      background: linear-gradient(90deg, #fff 60%, #eee 100%);
+      color: #222;
+      border-radius: 20px;
+      border: none;
+      box-shadow: 0 4px 20px #0008;
+      cursor: pointer;
+      transition: transform .2s, box-shadow .2s;
+      font-weight: bold;
+    }
+    button:hover {
+      transform: scale(1.08) rotate(-2deg);
+      box-shadow: 0 8px 32px #000b;
+      background: linear-gradient(90deg, #fff 70%, #ccc 100%);
+    }
+
+    #ghost {
+      display: none;
+      position: fixed;
+      top: 0; left: 0;
+      width: 100vw; height: 100vh;
+      background: rgba(0,0,0,0.92);
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+      animation: flashBG 0.13s alternate infinite;
+    }
+    #ghost.active {
+      display: flex;
+      animation: flashBG 0.13s alternate infinite;
+    }
+    @keyframes flashBG {
+      0% { background: rgba(0,0,0,0.95);}
+      100% { background: rgba(50,0,0,0.85);}
+    }
+    #ghost img {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      object-fit: cover;
+      filter: drop-shadow(0 0 100px #fff9) brightness(1.5) blur(0.8px);
+      animation: jumpscare 0.7s cubic-bezier(.6,0,.7,1.8) 1, shake 0.13s infinite, pulse 0.7s infinite alternate;
+      opacity: 0;
+      animation-fill-mode: forwards;
+      z-index: 1001;
+      } 
+    @keyframes jumpscare {
+      0% {
+        transform: scale(0.1) rotate(-10deg) blur(40px);
+        opacity: 0;
+        filter: brightness(3) blur(15px);
+      }
+      40% {
+        transform: scale(1.2) rotate(3deg) blur(2px);
+        opacity: 1;
+        filter: brightness(1.9) blur(1px) drop-shadow(0 0 130px #fff8);
+      }
+      100% {
+        transform: scale(1) rotate(0deg) blur(0);
+        opacity: 1;
+        filter: brightness(1.4) blur(0.2px) drop-shadow(0 0 80px #fff9);
+      }
+    }
+    @keyframes shake {
+      0% { transform: translate(0, 0);}
+      25% { transform: translate(-20px, 15px);}
+      50% { transform: translate(18px, -9px);}
+      75% { transform: translate(-12px, 20px);}
+      100% { transform: translate(0, 0);}
+    }
+    @keyframes pulse {
+      0% { filter: drop-shadow(0 0 90px #fff9) brightness(1.2);}
+      100% { filter: drop-shadow(0 0 200px #fff) brightness(2);}
+    }
+    .ghost-text {
+      color: #fff;
+      text-shadow: 0 0 20px #f00, 0 0 40px #fff, 0 0 80px #f00a;
+      font-size: 3.3rem;
+      font-family: 'Creepster', cursive, Arial Black, sans-serif;
+      position: absolute;
+      bottom: 12%;
+      left: 0; right: 0;
+      text-align: center;
+      opacity: 0.95;
+      animation: shake 0.18s infinite;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+    }
+  </style>
+  <link href="https://fonts.googleapis.com/css?family=Creepster" rel="stylesheet">
 </head>
+<body>
+  <button onclick="showGhost()">Phần Thưởng Của Bạn Tại Đây ✔</button>
+  <div id="ghost" onclick="hideGhost()">
+    <!-- Hình ma kinh dị, có thể thay link khác nếu muốn -->
+    <img src="OIP.jpg" alt="Ghost" />
+    <div class="ghost-text"></div>
+    <!-- Âm thanh scream mạnh, thử thay đổi src để tăng hiệu quả -->
+    <audio id="scream" src="0630 (1).mp3"></audio>
+  </div>
+  <script>
+    function showGhost() {
+      const ghost = document.getElementById('ghost');
+      ghost.classList.add('active');
+      const scream = document.getElementById('scream');
+      scream.currentTime = 0;
+      scream.play();
+    }
+    function hideGhost() {
+      const ghost = document.getElementById('ghost');
+      ghost.classList.remove('active');
+      const scream = document.getElementById('scream');
+      scream.pause();
+      scream.currentTime = 0;
+    }
+  </script>
+  <script>
+  function showGhost() {
+    const ghost = document.getElementById('ghost');
+    ghost.classList.add('active');
+    const scream = document.getElementById('scream');
+    scream.currentTime = 0;
+    scream.play();
+    setTimeout(hideGhost, 3000); // tự tắt sau 3 giây
+  }
 
-<body oncontextmenu="return false;" onkeydown="return false;" onmousedown="return false;">
+  function hideGhost() {
+    const ghost = document.getElementById('ghost');
+    ghost.classList.remove('active');
+    const scream = document.getElementById('scream');
+    scream.pause();
+    scream.currentTime = 0;
+  }
 
-<div id="overlay" class="overlay">
-
-<div class="overlay-body">
-
-<div class="overlay-buttons-wrapper">
-
-<div id="accept-button" class="overlay-button">Nhấn vào đây để tiếp tục tới trang đích</div>
-
-</div>
-
-</div>
-
-</div>
-
-<div class="scare">
-
-<video id="video" class="video" src="/video.mp4" loop></video>
-
-</div>
-
-<script>
-        </script>
-
+  // 👇 GỌI HÀM NGAY KHI TRANG TẢI XONG
+  window.onload = showGhost;
+</script>
 </body>
-
 </html>
-
